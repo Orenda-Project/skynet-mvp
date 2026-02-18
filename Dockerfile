@@ -26,5 +26,5 @@ RUN chmod +x start.sh
 # Expose port (Railway will inject $PORT)
 EXPOSE 8000
 
-# Temporarily skip Alembic to test if uvicorn starts
-CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000", "--log-level", "info"]
+# Run startup script with bash
+CMD ["/bin/bash", "./start.sh"]

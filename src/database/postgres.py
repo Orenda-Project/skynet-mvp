@@ -10,7 +10,6 @@ from sqlalchemy.orm import sessionmaker, Session
 
 from src.config import settings
 
-
 # Get database URL from Supabase configuration
 database_url = settings.get_database_url
 
@@ -26,13 +25,20 @@ if database_url.startswith("postgres://"):
 
 # Create database engine
 # pool_pre_ping=True ensures connections are alive before using them
-engine = create_engine(
-    database_url,
-    pool_pre_ping=True,
-    pool_size=5,
-    max_overflow=10,
-    echo=settings.debug  # Log SQL queries in debug mode
-)
+# connect_timeout prevents hanging on connection issues
+try:
+    engine = create_engine(
+        database_url,
+        pool_pre_ping=True,
+        pool_size=5,
+        max_overflow=10,
+        echo=settings.debug,  # Log SQL queries in debug mode
+        connect_args={"connect_timeout": 10}  # 10 second timeout
+    )
+    print("[DATABASE] Engine created successfully")
+except Exception as e:
+    print(f"[DATABASE ERROR] Failed to create engine: {e}")
+    raise
 
 # Create session factory
 SessionLocal = sessionmaker(
