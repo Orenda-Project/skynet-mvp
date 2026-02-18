@@ -26,5 +26,5 @@ RUN chmod +x start.sh
 # Expose port (Railway will inject $PORT)
 EXPOSE 8000
 
-# Run startup script
-CMD ["./start.sh"]
+# Run startup script with bash
+CMD ["/bin/bash", "./start.sh"]
