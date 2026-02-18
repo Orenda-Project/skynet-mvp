@@ -21,10 +21,10 @@ RUN pip install --no-cache-dir --upgrade pip && \
 COPY . .
 
 # Make startup script executable
-RUN chmod +x start.sh
+RUN chmod +x start.sh && chmod +x startup.py
 
 # Expose port (Railway will inject $PORT)
 EXPOSE 8000
 
-# Run startup script with bash
-CMD ["/bin/bash", "./start.sh"]
+# Run Python startup script with better error handling
+CMD ["python", "startup.py"]
