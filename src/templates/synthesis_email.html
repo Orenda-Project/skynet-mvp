@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting Synthesis - {{title}}</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #4F46E5;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            color: #4F46E5;
+            margin: 0 0 10px 0;
+            font-size: 24px;
+        }
+        .header .meeting-title {
+            color: #666;
+            font-size: 16px;
+            margin: 5px 0;
+        }
+        .header .meeting-date {
+            color: #999;
+            font-size: 14px;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .section-title {
+            color: #4F46E5;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #E5E7EB;
+        }
+        .summary {
+            background-color: #F3F4F6;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #4F46E5;
+            margin-bottom: 20px;
+        }
+        .list-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #E5E7EB;
+        }
+        .list-item:last-child {
+            border-bottom: none;
+        }
+        .decision-icon::before {
+            content: "✓";
+            color: #10B981;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .action-icon::before {
+            content: "→";
+            color: #3B82F6;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .question-icon::before {
+            content: "?";
+            color: #F59E0B;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .action-meta {
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+            margin-left: 20px;
+        }
+        .topics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .topic-tag {
+            background-color: #EEF2FF;
+            color: #4F46E5;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #E5E7EB;
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+        }
+        .footer-logo {
+            color: #4F46E5;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        .empty-state {
+            color: #999;
+            font-style: italic;
+            padding: 10px 0;
+        }
+        @media only screen and (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Meeting Synthesis</h1>
+            <div class="meeting-title">{{title}}</div>
+            <div class="meeting-date">{{date}}</div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Summary</div>
+            <div class="summary">
+                {{summary}}
+            </div>
+        </div>
+
+        {% if decisions %}
+        <div class="section">
+            <div class="section-title">Key Decisions ({{decisions|length}})</div>
+            {% for decision in decisions %}
+            <div class="list-item">
+                <span class="decision-icon"></span>{{decision}}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if action_items %}
+        <div class="section">
+            <div class="section-title">Action Items ({{action_items|length}})</div>
+            {% for item in action_items %}
+            <div class="list-item">
+                <div><span class="action-icon"></span>{{item.task}}</div>
+                {% if item.owner or item.due_date %}
+                <div class="action-meta">
+                    {% if item.owner %}Owner: {{item.owner}}{% endif %}
+                    {% if item.owner and item.due_date %} | {% endif %}
+                    {% if item.due_date %}Due: {{item.due_date}}{% endif %}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if open_questions %}
+        <div class="section">
+            <div class="section-title">Open Questions ({{open_questions|length}})</div>
+            {% for question in open_questions %}
+            <div class="list-item">
+                <span class="question-icon"></span>{{question}}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if topics %}
+        <div class="section">
+            <div class="section-title">Key Topics</div>
+            <div class="topics">
+                {% for topic in topics %}
+                <span class="topic-tag">{{topic}}</span>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="footer">
+            <div class="footer-logo">SkyNet</div>
+            <div>Organizational Intelligence System</div>
+            <div style="margin-top: 10px;">
+                This synthesis was automatically generated using AI
+            </div>
+        </div>
+    </div>
+</body>
+</html>

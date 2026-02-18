@@ -1,0 +1,50 @@
+# docker-compose.yml
+#
+# NOTE: This project now uses Supabase for PostgreSQL hosting.
+# Local Docker containers are no longer required for database services.
+#
+# Supabase provides:
+# - Managed PostgreSQL database
+# - Built-in authentication & authorization
+# - Real-time subscriptions
+# - Auto-generated REST API
+# - File storage
+# - pgvector for semantic search
+#
+# For local development, simply configure your .env file with Supabase credentials.
+# No need to run `docker-compose up` anymore!
+#
+# If you need to run other services locally (Redis, etc.) in the future,
+# you can add them here.
+
+version: '3.8'
+
+services:
+  # Future services can be added here as needed
+  # Example:
+  # redis:
+  #   image: redis:7-alpine
+  #   container_name: skynet-redis
+  #   ports:
+  #     - "6379:6379"
+  #   volumes:
+  #     - redis_data:/data
+
+# volumes:
+  # redis_data:
+  #   driver: local
+
+
+# ============================================================================
+# LEGACY CONFIGURATION (Archived - Using Supabase now)
+# ============================================================================
+#
+# Previously, this file contained PostgreSQL and Neo4j services.
+# These have been replaced by Supabase for:
+# - Reduced operational complexity
+# - Better development experience
+# - Managed backups and scaling
+# - Built-in features (auth, storage, realtime)
+#
+# If you need to restore local databases for testing, see git history.
+# ============================================================================
