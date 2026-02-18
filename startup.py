@@ -5,8 +5,19 @@ Runs Alembic migrations before starting the uvicorn server.
 """
 import sys
 import os
-from alembic.config import Config
-from alembic import command
+
+# Force unbuffered output
+print("STARTUP: Python script starting...", flush=True)
+
+try:
+    from alembic.config import Config
+    from alembic import command
+    print("STARTUP: Alembic imports successful", flush=True)
+except Exception as e:
+    print(f"STARTUP ERROR: Failed to import Alembic: {e}", file=sys.stderr, flush=True)
+    import traceback
+    traceback.print_exc()
+    sys.exit(1)
 
 def run_migrations():
     """Run Alembic migrations."""
@@ -48,15 +59,15 @@ def start_uvicorn():
     )
 
 if __name__ == "__main__":
-    print(f"Python version: {sys.version}")
-    print(f"Working directory: {os.getcwd()}")
-    print(f"PORT: {os.getenv('PORT', '8000')}")
-    print()
+    print(f"Python version: {sys.version}", flush=True)
+    print(f"Working directory: {os.getcwd()}", flush=True)
+    print(f"PORT: {os.getenv('PORT', '8000')}", flush=True)
+    print("", flush=True)
 
     # Run migrations
     if run_migrations():
         # Start server
         start_uvicorn()
     else:
-        print("Failed to run migrations. Exiting.", file=sys.stderr)
+        print("Failed to run migrations. Exiting.", file=sys.stderr, flush=True)
         sys.exit(1)
