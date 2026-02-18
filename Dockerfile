@@ -26,5 +26,5 @@ RUN chmod +x start.sh && chmod +x startup.py
 # Expose port (Railway will inject $PORT)
 EXPOSE 8000
 
-# Run Python startup script with better error handling
-CMD ["python", "startup.py"]
+# Temporarily start uvicorn directly to test FastAPI app
+CMD ["python", "-u", "-c", "print('Container starting...', flush=True); import uvicorn; uvicorn.run('src.main:app', host='0.0.0.0', port=8000, log_level='info')"]
