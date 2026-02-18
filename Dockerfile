@@ -20,8 +20,11 @@ RUN pip install --no-cache-dir --upgrade pip && \
 # Copy application code
 COPY . .
 
+# Make startup script executable
+RUN chmod +x start.sh
+
 # Expose port (Railway will inject $PORT)
 EXPOSE 8000
 
-# Run database migrations and start application
-CMD alembic upgrade head && uvicorn src.main:app --host 0.0.0.0 --port ${PORT:-8000}
+# Run startup script
+CMD ["./start.sh"]
