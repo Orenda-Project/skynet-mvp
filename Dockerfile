@@ -26,5 +26,5 @@ RUN chmod +x start.sh && chmod +x startup.py
 # Expose port (Railway will inject $PORT)
 EXPOSE 8000
 
-# Test with minimal app first
-CMD ["python", "-u", "minimal_test.py"]
+# Use init_db.py which creates tables and starts the full app
+CMD ["python", "-u", "init_db.py"]
